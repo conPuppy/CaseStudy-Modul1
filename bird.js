@@ -3,6 +3,42 @@ let ctx = canvas.getContext("2d");
 
 let sprite = new Image();
 sprite.src = "img/abc.png";
+let newsprite= new Image();
+newsprite.src="img/newbg.jpeg";
+let verynewsprite = new Image();
+verynewsprite.src="img/test.png";
+//nền canvas nếu lớn hơn 10 điểm:
+let nbg = {
+    //thuộc tính
+    sX: 0,
+    sY: 0,
+    w: 500,
+    h: 325,
+    cX: 0,
+    cY:0,
+    cW: 500,
+    cH: 500,
+    //hàm cắt ảnh bg sprite
+    draw: function () {
+        ctx.drawImage(newsprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY, this.cW, this.cH) //sử dụng phương pháp vẽ hình ảnh
+    }
+}
+let temp2=nbg;
+//nền canvas nếu lớn hơn 20 điểm:
+let vnbg = {
+    sX: 0,
+    sY: 1000,
+    w: 500,
+    h: 500,
+    cX: 0,
+    cY:0,
+    cW: 500,
+    cH: 500,
+    //hàm cắt ảnh bg sprite
+    draw: function () {
+        ctx.drawImage(verynewsprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY, this.cW, this.cH) //sử dụng phương pháp vẽ hình ảnh
+    }
+}
 
 //nền canvas:
 // sX,Y: toạ độ cắt; cX,Y: toạ độ vẽ trên canvas
@@ -14,14 +50,19 @@ let bg = {
     h: 255,
     cX: 0,
     cY:0,
+    cW: 140,
+    cH: 255,
     //hàm cắt ảnh bg sprite
     draw: function () {
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY+this.h, this.w, this.h) //sử dụng phương pháp vẽ hình ảnh
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w, this.cY+this.h, this.w, this.h) // cộng thêm chiều rộng vào trục x để cho hình nền đẩy đủ
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w, this.cY+this.h, this.w, this.h)
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w+this.w, this.cY+this.h, this.w, this.h)
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY+this.h, this.cW, this.cH) //sử dụng phương pháp vẽ hình ảnh
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w, this.cY+this.h, this.cW, this.cH) // cộng thêm chiều rộng vào trục x để cho hình nền đẩy đủ
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w, this.cY+this.h, this.cW, this.cH)
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w+this.w, this.cY+this.h, this.cW, this.cH)
     }
 }
+//khởi tạo biến mới và gán nó bằng bg
+// để sau khi restart chơi lại game thì màn hình ban đầu sẽ được hiển thị lại
+let temp1=bg;
 // màn hình bắt đầu:
 let game='start';
 //tạo biến đếm khung hình:
@@ -307,7 +348,7 @@ let bird= new Bird(canvas.width/2-150,295);
 class Medal {
     constructor(i) {
         this.sX=110 ;
-        this.sY=[510,452,476] ;
+        this.sY=[512,452,476] ;
         this.sW= 24;
         this.sH= 24;
         this.cX=157;
@@ -358,6 +399,8 @@ canvas.addEventListener('click', function (event) {
                   bird.v=0;
                   bird.cY=295;
                   game="start";
+                  bg=temp1;
+                  nbg=temp2;
               }
               break;
       }
@@ -365,6 +408,12 @@ canvas.addEventListener('click', function (event) {
 
 //hàm vẽ
 function draw() {
+    if(score.value>=5) {
+        bg=nbg;
+    }
+    if(score.value>=10) {
+        nbg=vnbg;
+    }
     bg.draw();
     //hình nền start có 3 khối ban đầu khi game ở trạng thái start, nếu không thì
     if(game=="start"){
@@ -376,6 +425,7 @@ function draw() {
         score.draw();
     }
     bird.draw();
+
     if(game=="end") {
         end.draw();
         score.drawSmall();
