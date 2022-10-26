@@ -303,6 +303,38 @@ class Bird {
 //khởi tạo đối tượng Bird:
 let bird= new Bird(canvas.width/2-150,295);
 
+// tạo class huy chương:
+class Medal {
+    constructor(i) {
+        this.sX=110 ;
+        this.sY=[510,452,476] ;
+        this.sW= 24;
+        this.sH= 24;
+        this.cX=157;
+        this.cY=243;
+        this.cW=48;
+        this.cH=48;
+        this.i=i ;
+        // 0 là ko co gi, 1 là bac, 2 là vang
+    }
+    draw () {
+        ctx.drawImage(sprite,this.sX,this.sY[this.i],this.sW,this.sH,this.cX,this.cY,this.cW,this.cH)
+    }
+    huychuong() {
+        if(score.value==0) {
+            this.i=0;
+        }
+        if(score.value>=maxScore.value) {
+            this.i=2;
+        }else if(score.value>=maxScore.value/2&&score.value<maxScore.value){
+            this.i=1;
+        }else {
+            this.i=0;
+        }
+    }
+}
+let medal= new Medal(0);
+
 canvas.addEventListener('click', function (event) {
       switch (game) {
           case "start":
@@ -330,6 +362,7 @@ canvas.addEventListener('click', function (event) {
               break;
       }
 })
+
 //hàm vẽ
 function draw() {
     bg.draw();
@@ -347,6 +380,7 @@ function draw() {
         end.draw();
         score.drawSmall();
         maxScore.drawSmall();
+        medal.draw();
     }
 }
 //định nghĩa hàm di chuyển
@@ -356,7 +390,7 @@ function dichuyen() {
         dichuyenGround();
     }
     bird.dichuyen();
-
+    medal.huychuong();
 }
 
 //hàm để vẽ lại
