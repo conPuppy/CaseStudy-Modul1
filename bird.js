@@ -1,6 +1,9 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-
+//tạo tiếng game:
+let congdiem= new Audio();
+congdiem.src="audio/soundflappybird.mp3";
+// tạo background:
 let sprite = new Image();
 sprite.src = "img/abc.png";
 let newsprite= new Image();
@@ -388,8 +391,8 @@ canvas.addEventListener('click', function (event) {
           case "end":
               console.log('endgame');
               if(
-                  event.offsetX>canvas.width/2-55 &&
-                  event.offsetX<canvas.width/2+55 &&
+                  event.offsetX>canvas.width/2-110 &&
+                  event.offsetX<canvas.width/2 &&
                   event.offsetY>350&&
                   event.offsetY<414
               ) {
