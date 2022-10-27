@@ -3,6 +3,16 @@ let ctx = canvas.getContext("2d");
 //tạo tiếng game:
 let congdiem= new Audio();
 congdiem.src="audio/soundflappybird.mp3";
+let die= new Audio();
+die.src="audio/die.wav";
+let hit= new Audio();
+hit.src="audio/hit.mp3";
+let bay= new Audio();
+bay.src="audio/bay.mp3";
+let roi= new Audio();
+roi.src="audio/roi.mp3";
+
+
 // tạo background:
 let sprite = new Image();
 sprite.src = "img/abc.png";
@@ -177,13 +187,13 @@ function random(min,max) {
 }
 let arrPipes=[];
 for(let i=1;i<4; i++) {
-    let pipe= new Pipes(random(500,510)*i,random(-500,-120),120);
+    let pipe= new Pipes(random(500,510)*i,random(-500,-120),150);
     arrPipes.push(pipe);
 }
 // tạo hàm ống mới khi restart lại game
 function newPipes() {
     for(let i=1;i<4; i++) {
-        let pipe= new Pipes(random(500,510)*i,random(-500,-120),120);
+        let pipe= new Pipes(random(500,510)*i,random(-500,-120),150);
         arrPipes.push(pipe);
 }
 }
@@ -199,7 +209,7 @@ function dichuyenOng() {
 
     if(arrPipes[0].cX<=-27){
         arrPipes.splice(0,1);
-        let pipe= new Pipes(arrPipes[arrPipes.length-1].cX+random(300,350),random(-500,-120),120)
+        let pipe= new Pipes(arrPipes[arrPipes.length-1].cX+random(300,350),random(-500,-120),150)
         arrPipes.push(pipe);
     }
 }
@@ -320,6 +330,8 @@ class Bird {
 
         //   kiểm tra va chạm với nền đất
             if(this.cY+this.cH+this.v>=500) {
+                hit.play();
+                die.play();
                 game="end";
                 this.v=0;
                 this.cY=470;
@@ -333,12 +345,15 @@ class Bird {
                     bird.cY +bird.cH>arrPipes[0].cY+arrPipes[0].cH+arrPipes[0].space
                 )
             ) {
+                hit.play();
+                die.play();
                 game="end";
             }
         //    kiểm tra TH cộng điểm:
         //    chú ý tốc độ nền dx=-2;
             if(bird.cX==arrPipes[0].cX+arrPipes[0].cW|| bird.cX==arrPipes[0].cX+arrPipes[0].cW-1) {
                 score.value++;
+                congdiem.play();
                 maxScore.value= Math.max(score.value,maxScore.value)
             }
         }
@@ -385,10 +400,12 @@ canvas.addEventListener('click', function (event) {
               game="play";
               break;
           case "play":
+              bay.play();
               console.log('choigame');
               bird.v=-4;
               break;
           case "end":
+
               console.log('endgame');
               if(
                   event.offsetX>canvas.width/2-110 &&
@@ -455,4 +472,5 @@ function animate() {
     dichuyen();
 }
 animate();
+
 
