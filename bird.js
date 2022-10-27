@@ -207,7 +207,7 @@ function dichuyenOng() {
     })
 //    tạo thêm để các ống được vẽ liên tục dùng splice;
 
-    if(arrPipes[0].cX<=-27){
+    if(arrPipes[0].cX<=-54){
         arrPipes.splice(0,1);
         let pipe= new Pipes(arrPipes[arrPipes.length-1].cX+random(300,350),random(-500,-120),150)
         arrPipes.push(pipe);
