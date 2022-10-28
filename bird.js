@@ -9,8 +9,7 @@ let hit= new Audio();
 hit.src="audio/hit.mp3";
 let bay= new Audio();
 bay.src="audio/bay.mp3";
-let roi= new Audio();
-roi.src="audio/roi.mp3";
+
 
 
 // tạo background:
@@ -195,7 +194,7 @@ function newPipes() {
     for(let i=1;i<4; i++) {
         let pipe= new Pipes(random(500,510)*i,random(-500,-120),150);
         arrPipes.push(pipe);
-}
+    }
 }
 
 function drawArrPipe() {
@@ -259,7 +258,7 @@ class Score {
         }
     }
     drawSmall() {
-    //    thêm method vẽ điểm khi màn hình end game
+        //    thêm method vẽ điểm khi màn hình end game
         if( this.value>=10) {
             this.split = (this.value.toString()).split('');
             arrNumber.forEach(number=> {
@@ -299,36 +298,36 @@ class Bird {
         this.cW=18*2.5;
         this.cH=13*2.5;
         this.i=0;
-    //    tạo thêm thuộc tính để chim di chuyển:
+        //    tạo thêm thuộc tính để chim di chuyển:
         this.v=0;
         this.a=0.2;
-    //    this.i là mảng i trong mảng 2 chiều this.chim
+        //    this.i là mảng i trong mảng 2 chiều this.chim
     }
     draw () {
-         if(game=="start") {
-             if(dem%35==0) {
-                 this.i++;
-                 if(this.i>2) {
-                     this.i=0
-                 }
-             }
-         }
-         if(game=="play") {
-             if(dem%15==0) {
-                 this.i++;
-                 if(this.i>2) {
-                     this.i=0
-                 }
-             }
-         }
-         ctx.drawImage(sprite, this.chim[this.i].sX,this.chim[this.i].sY,this.sW,this.sH,this.cX,this.cY,this.cW,this.cH)
+        if(game=="start") {
+            if(dem%35==0) {
+                this.i++;
+                if(this.i>2) {
+                    this.i=0
+                }
+            }
+        }
+        if(game=="play") {
+            if(dem%15==0) {
+                this.i++;
+                if(this.i>2) {
+                    this.i=0
+                }
+            }
+        }
+        ctx.drawImage(sprite, this.chim[this.i].sX,this.chim[this.i].sY,this.sW,this.sH,this.cX,this.cY,this.cW,this.cH)
     }
     dichuyen () {
         if(game=="play"|| game=="end") {
             this.v+=this.a;
             this.cY+=this.v;
 
-        //   kiểm tra va chạm với nền đất
+            //   kiểm tra va chạm với nền đất
             if(this.cY+this.cH+this.v>=500) {
                 hit.play();
                 die.play();
@@ -336,7 +335,7 @@ class Bird {
                 this.v=0;
                 this.cY=470;
             }
-        //    kiểm tra va chạm chim với đường ống
+            //    kiểm tra va chạm chim với đường ống
             if(
                 bird.cX+bird.cW>arrPipes[0].cX &&
                 bird.cX< arrPipes[0].cX+arrPipes[0].cW &&
@@ -349,8 +348,8 @@ class Bird {
                 die.play();
                 game="end";
             }
-        //    kiểm tra TH cộng điểm:
-        //    chú ý tốc độ nền dx=-2;
+            //    kiểm tra TH cộng điểm:
+            //    chú ý tốc độ nền dx=-2;
             if(bird.cX==arrPipes[0].cX+arrPipes[0].cW|| bird.cX==arrPipes[0].cX+arrPipes[0].cW-1) {
                 score.value++;
                 congdiem.play();
@@ -395,35 +394,35 @@ class Medal {
 let medal= new Medal(0);
 
 canvas.addEventListener('click', function (event) {
-      switch (game) {
-          case "start":
-              game="play";
-              break;
-          case "play":
-              bay.play();
-              console.log('choigame');
-              bird.v=-4;
-              break;
-          case "end":
+    switch (game) {
+        case "start":
+            game="play";
+            break;
+        case "play":
+            bay.play();
+            console.log('choigame');
+            bird.v=-4;
+            break;
+        case "end":
 
-              console.log('endgame');
-              if(
-                  event.offsetX>canvas.width/2-110 &&
-                  event.offsetX<canvas.width/2 &&
-                  event.offsetY>350&&
-                  event.offsetY<414
-              ) {
-                  score.value=0;
-                  arrPipes=[];
-                  newPipes();
-                  bird.v=0;
-                  bird.cY=295;
-                  game="start";
-                  bg=temp1;
-                  nbg=temp2;
-              }
-              break;
-      }
+            console.log('endgame');
+            if(
+                event.offsetX>canvas.width/2-110 &&
+                event.offsetX<canvas.width/2 &&
+                event.offsetY>350&&
+                event.offsetY<414
+            ) {
+                score.value=0;
+                arrPipes=[];
+                newPipes();
+                bird.v=0;
+                bird.cY=295;
+                game="start";
+                bg=temp1;
+                nbg=temp2;
+            }
+            break;
+    }
 })
 
 //hàm vẽ
@@ -472,5 +471,3 @@ function animate() {
     dichuyen();
 }
 animate();
-
-
