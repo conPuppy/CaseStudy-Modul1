@@ -1,5 +1,6 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+
 //tạo tiếng game:
 let congdiem= new Audio();
 congdiem.src="audio/soundflappybird.mp3";
@@ -10,8 +11,6 @@ hit.src="audio/hit.mp3";
 let bay= new Audio();
 bay.src="audio/bay.mp3";
 
-
-
 // tạo background:
 let sprite = new Image();
 sprite.src = "img/abc.png";
@@ -19,6 +18,32 @@ let newsprite= new Image();
 newsprite.src="img/newbg.jpeg";
 let verynewsprite = new Image();
 verynewsprite.src="img/test.png";
+
+
+//nền canvas:
+// sX,Y: toạ độ cắt; cX,Y: toạ độ vẽ trên canvas
+let bg = {
+    //thuộc tính
+    sX: 147,
+    sY: 0,
+    w: 140,
+    h: 255,
+    cX: 0,
+    cY:0,
+    cW: 140,
+    cH: 255,
+    //hàm cắt ảnh bg sprite
+    draw: function () {
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY+this.h, this.cW, this.cH) //sử dụng phương pháp vẽ hình ảnh
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w, this.cY+this.h, this.cW, this.cH) // cộng thêm chiều rộng vào trục x để cho hình nền đẩy đủ
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w, this.cY+this.h, this.cW, this.cH)
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w+this.w, this.cY+this.h, this.cW, this.cH)
+    }
+}
+//khởi tạo biến mới và gán nó bằng bg
+// để sau khi restart chơi lại game thì màn hình ban đầu sẽ được hiển thị lại
+let temp1=bg;
+
 //nền canvas nếu lớn hơn 10 điểm:
 let nbg = {
     //thuộc tính
@@ -52,29 +77,6 @@ let vnbg = {
     }
 }
 
-//nền canvas:
-// sX,Y: toạ độ cắt; cX,Y: toạ độ vẽ trên canvas
-let bg = {
-    //thuộc tính
-    sX: 147,
-    sY: 0,
-    w: 140,
-    h: 255,
-    cX: 0,
-    cY:0,
-    cW: 140,
-    cH: 255,
-    //hàm cắt ảnh bg sprite
-    draw: function () {
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX, this.cY+this.h, this.cW, this.cH) //sử dụng phương pháp vẽ hình ảnh
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w, this.cY+this.h, this.cW, this.cH) // cộng thêm chiều rộng vào trục x để cho hình nền đẩy đủ
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w, this.cY+this.h, this.cW, this.cH)
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.cX + this.w +this.w+this.w, this.cY+this.h, this.cW, this.cH)
-    }
-}
-//khởi tạo biến mới và gán nó bằng bg
-// để sau khi restart chơi lại game thì màn hình ban đầu sẽ được hiển thị lại
-let temp1=bg;
 // màn hình bắt đầu:
 let game='start';
 //tạo biến đếm khung hình:
